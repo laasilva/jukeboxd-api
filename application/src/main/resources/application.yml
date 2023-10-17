@@ -25,12 +25,17 @@ spring:
       url: jdbc-secretsmanager:postgresql://jukeboxddb.cqu68g53egxs.us-east-2.rds.amazonaws.com:5432/postgres
       username: rds!db-06515a50-a643-4063-8a71-6cf8f0ae1f24
       password: rds!db-06515a50-a643-4063-8a71-6cf8f0ae1f24
-
   jpa:
     show-sql: false
     hibernate:
       ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8083/auth/
+          jwk-set-uri: http://localhost:8083/auth/certs
 
 management:
   endpoints:

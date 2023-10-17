@@ -1,8 +1,10 @@
 package com.api.jukeboxd.application.config;
 
 import com.api.jukeboxd.core.business.ArtistService;
+import com.api.jukeboxd.core.business.UserService;
 import com.api.jukeboxd.core.port.persistence.ArtistPersistenceAdapter;
 import com.api.jukeboxd.core.port.persistence.SyncArtistPersistenceAdapter;
+import com.api.jukeboxd.core.port.persistence.UserPersistenceAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,5 +16,10 @@ public class BeanConfig {
     ArtistService artistService(SyncArtistPersistenceAdapter syncArtistPersistenceAdapter,
                                 ArtistPersistenceAdapter persistence) {
         return new ArtistService(syncArtistPersistenceAdapter, persistence);
+    }
+
+    @Bean
+    UserService userService(UserPersistenceAdapter userPersistenceAdapter) {
+        return new UserService(userPersistenceAdapter);
     }
 }
