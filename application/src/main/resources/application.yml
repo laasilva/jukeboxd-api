@@ -56,6 +56,12 @@ springdoc:
   cache:
     disabled: true
 
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 server:
   port: 8080
   forward-headers-strategy: framework

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.entity.ContentType;
@@ -30,6 +31,7 @@ public class ArtistController {
     })
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Artist> getArtist(@Parameter(description = "Insert Artist Name") String artistName) {
         return ResponseEntity.ok(service.syncArtistFromSpotify(artistName));
     }
@@ -41,6 +43,7 @@ public class ArtistController {
     })
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<List<Artist>> getArtistsByIds(@Parameter(description = "Insert Artist Ids")
                                                             @RequestParam String[] ids) {
         return ResponseEntity.ok(service.getArtistsById(ids));
@@ -53,6 +56,7 @@ public class ArtistController {
     })
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(value = "/list/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Paginated<List<Artist>>> getAllArtistsPaginated(@Parameter(description = "Page")
                                                                               @RequestHeader int page,
                                                                          @Parameter(description = "Size")

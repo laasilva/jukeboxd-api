@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.api.jukeboxd</groupId>
         <artifactId>jukeboxd-api</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>datasource</artifactId>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.api.jukeboxd</groupId>
             <artifactId>core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.api.jukeboxd</groupId>
         <artifactId>jukeboxd-api</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>application</artifactId>
@@ -87,13 +87,13 @@
         <dependency>
             <groupId>com.api.jukeboxd</groupId>
             <artifactId>core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.api.jukeboxd</groupId>
             <artifactId>datasource</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
