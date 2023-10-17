@@ -26,7 +26,7 @@ spring:
       username: rds!db-06515a50-a643-4063-8a71-6cf8f0ae1f24
       password: rds!db-06515a50-a643-4063-8a71-6cf8f0ae1f24
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect

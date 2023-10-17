@@ -7,10 +7,12 @@ import com.api.jukeboxd.core.port.persistence.UserPersistenceAdapter;
 import com.api.jukeboxd.core.port.service.UserSerivceAdapter;
 import com.api.jukeboxd.core.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RequiredArgsConstructor
 public class UserService implements UserSerivceAdapter {
     private final UserPersistenceAdapter persistence;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public User fetchByUsername(String username) {
         return persistence.fetchByUsername(username);
@@ -27,10 +29,10 @@ public class UserService implements UserSerivceAdapter {
     }
 
     @Override
-    public User addNewUser(User user) throws PasswordEncryptionException, ValidationException {
+    public User addNewUser(User user) throws ValidationException {
         PasswordUtil.verifyValidPassword(user.getPassword());
 
-        user.setPassword(PasswordUtil.encrypt(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return persistence.addNewUser(user);
 
     }
