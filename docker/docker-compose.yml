@@ -1,0 +1,18 @@
+version: '3.6'
+services:
+  user_db:
+    image: postgres
+    container_name: hellfire_user
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "jukeboxd_db"
+      POSTGRES_USER: "usr_admin"
+      POSTGRES_PASSWORD: "jukeboxd@22"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-volume:/var/lib/jukeboxd_db
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./custom.cnf:/etc/mysql/conf.d/custom.cnf
+volumes:
+  postgres-volume:

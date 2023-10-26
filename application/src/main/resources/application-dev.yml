@@ -3,6 +3,10 @@ spring:
     rest:
       defaultMediaType: application/json
       default-media-type: application/json
+  config:
+    import:
+      - "aws-secretsmanager:rds!db-06515a50-a643-4063-8a71-6cf8f0ae1f24"
+      - "optional:aws-secretsmanager:dev/creds/spotify"
   application:
     name: jukeboxd-api
   jmx:
@@ -13,13 +17,13 @@ spring:
   flyway:
     enabled: false
   datasource:
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerPostgreSQLDriver
     hikari:
       maximum-pool-size: 5
       connection-timeout: 5000
       pool-name: pool-starter
-      url: jdbc:postgresql://localhost:5432/jukeboxd_db
-      username: usr_admin
+      url: jdbc-secretsmanager:postgresql://jukeboxddb.cqu68g53egxs.us-east-2.rds.amazonaws.com:5432/postgres
+      username: rds!db-06515a50-a643-4063-8a71-6cf8f0ae1f24
       password: rds!db-06515a50-a643-4063-8a71-6cf8f0ae1f24
   jpa:
     show-sql: true
@@ -68,5 +72,3 @@ spotify:
   url:
     token: https://accounts.spotify.com/api/token
     api: https://api.spotify.com/v1/
-  secret:
-  id:

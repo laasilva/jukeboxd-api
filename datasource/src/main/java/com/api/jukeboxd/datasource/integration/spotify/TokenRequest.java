@@ -22,8 +22,8 @@ public class TokenRequest {
     private final WebClient.Builder webClientBuilder;
 
     public TokenRequest(@Value("${spotify.url.token}") String spotifyTokenUrl,
-                        @Value("${secret}") String clientSecret,
-                        @Value("${id}") String clientId,
+                        @Value("${spotify.secret}") String clientSecret,
+                        @Value("${spotify.id}") String clientId,
                         WebClient.Builder webClientBuilder) {
         this.spotifyTokenUrl = spotifyTokenUrl;
         this.clientSecret = clientSecret;
