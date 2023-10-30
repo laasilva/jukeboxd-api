@@ -22,4 +22,9 @@ public class AuthService implements AuthServiceAdapter {
         var user = persistence.authByUsername(auth.getUsername());
         return jwtService.generateToken(user);
     }
+
+    @Override
+    public Boolean validate(String username) {
+        return persistence.usernameExists(username);
+    }
 }

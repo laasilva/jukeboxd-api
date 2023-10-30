@@ -68,5 +68,5 @@ spotify:
   url:
     token: https://accounts.spotify.com/api/token
     api: https://api.spotify.com/v1/
-  secret:
-  id:
+  secret: fdad6a72f10b413d8a05b2206b1f265d
+  id: 4d0a47e081ad43bf8b9a5ad9a420f989

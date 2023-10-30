@@ -54,4 +54,15 @@ public class AuthController {
                         .password(auth.getPassword())
                         .build())).build());
     }
+    @Operation(summary = "Validate Username", description = "Validate if username exists while on signup.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "401", description = "Error while validating username")
+    })
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value="/validate",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean validate(@RequestHeader String username) {
+        return authService.validate(username);
+    }
 }

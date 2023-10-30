@@ -19,7 +19,7 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
     private final String jwtSecret;
 
-    public JwtService(@Value("${jwt_secret}") String jwtSecret) {
+    public JwtService(@Value("${jwt.secret}") String jwtSecret) {
         this.jwtSecret = jwtSecret;
     }
 
