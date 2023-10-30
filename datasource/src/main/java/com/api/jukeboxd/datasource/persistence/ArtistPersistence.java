@@ -25,6 +25,13 @@ public class ArtistPersistence implements ArtistPersistenceAdapter {
     }
 
     @Override
+    public List<Artist> fetchArtistsByName(String artistName) {
+        var artists = repository.findAllByNameLike(artistName);
+
+        return artists.stream().map(artistMapper::toModel).collect(Collectors.toList());
+    }
+
+    @Override
     public Paginated<List<Artist>> fetchAllArtists(int page, int size) {
         Pageable paging = PageRequest.of(page, size);
 

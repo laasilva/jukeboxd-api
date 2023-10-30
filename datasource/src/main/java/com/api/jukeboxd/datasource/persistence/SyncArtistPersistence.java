@@ -9,6 +9,7 @@ import com.api.jukeboxd.datasource.repository.ArtistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +34,27 @@ public class SyncArtistPersistence implements SyncArtistPersistenceAdapter {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Artist> searchArtistsOnSpotify(SearchQueryDto query, String artistName) throws Exception {
+        var artists = repository.findAllByNameLike(artistName);
+
+        if (artists.size() == 5) {
+            return artists.stream().map(artistMapper::toModel).collect(Collectors.toList());
+        } else {
+            var spotifyData = search.searchArtists(query, artists.size());
+            var synchedData = spotifyData.stream().map(artistMapper::toModel).collect(Collectors.toList());
+
+            var savedData = new ArrayList<Artist>();
+
+            synchedData.forEach(data -> {
+                var saved = repository.save(artistMapper.toEntity(data));
+                savedData.add(artistMapper.toModel(saved));
+            });
+
+            return savedData;
         }
     }
 }

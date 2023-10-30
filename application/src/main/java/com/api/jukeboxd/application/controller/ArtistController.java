@@ -23,6 +23,18 @@ import java.util.List;
 @Tag(name = "Artist Interactions")
 public class ArtistController {
     private final ArtistServiceAdapter service;
+
+    @Operation(summary = "Search for artists", description = "Searches for artist on database and Spotify")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK Status"),
+            @ApiResponse(responseCode = "404", description = "Not Found Status")
+    })
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Artist>> searchArtists(@Parameter(description = "Insert Artist Name")
+                                                      @RequestParam String name) throws Exception {
+        return ResponseEntity.ok(service.searchArtists(name));
+    }
     @Operation(summary = "Get Artist", description = "Returns Artist information based on Name")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK Status"),
@@ -47,7 +59,6 @@ public class ArtistController {
                                                             @RequestParam String[] ids) {
         return ResponseEntity.ok(service.getArtistsById(ids));
     }
-
     @Operation(summary = "Get Artists By IDs", description = "Returns a list of Artists information based on IDs")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK Status"),

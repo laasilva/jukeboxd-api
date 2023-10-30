@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SyncArtistPersistenceAdapter {
     Artist syncArtistDataWithSpotify(SearchQueryDto query, String artistName);
+    List<Artist> searchArtistsOnSpotify(SearchQueryDto query, String artistName) throws Exception;
 }

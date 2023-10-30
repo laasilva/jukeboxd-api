@@ -24,7 +24,7 @@ create table music.image (
 );
 
 create table music.artist_image (
-	artist varchar(20) not null,
+	artist varchar(40) not null,
 	image integer not null,
 	foreign key (artist) references music.artist(id) ON UPDATE cascade ON DELETE RESTRICT,
 	foreign key (image) references music.image(id) ON UPDATE cascade ON DELETE RESTRICT

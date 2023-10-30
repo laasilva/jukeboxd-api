@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
+
 @Service
 @Log4j2
 public class SearchRequest {
@@ -50,11 +52,46 @@ public class SearchRequest {
         return jsonToModel(response.join());
     }
 
+    public List<ArtistDto> searchArtists(SearchQueryDto query, int offset) throws Exception {
+        var limit = 5 - offset;
+
+        var searchQuery = String.format("q=%s&type=%s&market=US&limit=%s&offset=%s",
+                query.getQ(), query.getType(), limit, offset);
+
+        var uri = spotifyApiUrl + "search?" + searchQuery;
+        var response = webClientBuilder
+                .build()
+                .get()
+                .uri(String.format(uri))
+                .header(HttpHeaders.AUTHORIZATION, tokenRequest.getToken())
+                .exchangeToMono(resp -> {
+                    if (resp.statusCode() != HttpStatus.OK) {
+                        log.error("Error while requesting from " + uri);
+                        log.error("Status code: " + resp.statusCode());
+
+                        throw new HttpClientErrorException(resp.statusCode());
+                    }
+                    return resp.bodyToMono(String.class);
+                })
+                .toFuture();
+        return jsonToModelList(response.join());
+    }
+
     private ArtistDto jsonToModel(String response) {
         var dto = new Gson().fromJson(response, SearchArtistResponseDto.class);
 
         if (dto != null) {
             return dto.getArtists().getItems().get(0);
+        } else {
+            throw new JsonParseException("Error while converting Artist Response JSON.");
+        }
+    }
+
+    private List<ArtistDto> jsonToModelList(String response) {
+        var dto = new Gson().fromJson(response, SearchArtistResponseDto.class);
+
+        if (dto != null) {
+            return dto.getArtists().getItems();
         } else {
             throw new JsonParseException("Error while converting Artist Response JSON.");
         }

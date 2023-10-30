@@ -24,6 +24,14 @@ public class ArtistService implements ArtistServiceAdapter {
     }
 
     @Override
+    public List<Artist> searchArtists(String artistName) throws Exception {
+        var query = new SearchQueryDto(artistName.replace(" ", "+"),
+                SearchType.ARTIST.getValue());
+
+        return syncArtist.searchArtistsOnSpotify(query, artistName);
+    }
+
+    @Override
     public List<Artist> getArtistsById(String[] ids) {
         return persistence.fetchArtists(ids);
     }
