@@ -180,6 +180,11 @@
 						</compilerArgs>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.flywaydb</groupId>
+					<artifactId>flyway-parent</artifactId>
+					<version>9.16.3</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 

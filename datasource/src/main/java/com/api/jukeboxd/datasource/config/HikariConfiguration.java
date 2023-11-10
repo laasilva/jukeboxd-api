@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @EntityScan(basePackages = {"com.api.jukeboxd.datasource.entity"})
 @EnableJpaRepositories(basePackages = {"com.api.jukeboxd.datasource.repository"})
 public class HikariConfiguration {
-    @Value("${spring.datasource.driver-class-name}")
+    @Value("${spring.datasource.database-platform}")
     private String driver;
     @Value("${spring.datasource.hikari.connection-timeout}")
     private Integer connectionTimeout;
@@ -22,11 +22,11 @@ public class HikariConfiguration {
     private Integer maxPoolSize;
     @Value("${spring.datasource.hikari.pool-name}")
     private String poolName;
-    @Value("${spring.datasource.hikari.url}")
+    @Value("${spring.datasource.url}")
     private String url;
-    @Value("${spring.datasource.hikari.username}")
+    @Value("${spring.datasource.username}")
     private String username;
-    @Value("${spring.datasource.hikari.password}")
+    @Value("${spring.datasource.password}")
     private String password;
 
     @Bean

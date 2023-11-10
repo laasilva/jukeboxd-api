@@ -11,6 +11,8 @@
 
     <artifactId>application</artifactId>
 
+
+
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
@@ -102,6 +104,7 @@
             <version>6.1.4</version>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>${application.name.value}</finalName>
 
@@ -112,6 +115,7 @@
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.yml</include>
+                    <include>**/*.sql</include>
                 </includes>
             </resource>
         </resources>

@@ -1,9 +1,11 @@
 package com.api.jukeboxd.application.config;
 
+import com.api.jukeboxd.core.business.AlbumService;
 import com.api.jukeboxd.core.business.ArtistService;
 import com.api.jukeboxd.core.business.AuthService;
 import com.api.jukeboxd.core.business.UserService;
 import com.api.jukeboxd.core.port.persistence.ArtistPersistenceAdapter;
+import com.api.jukeboxd.core.port.persistence.SyncAlbumPersistenceAdapter;
 import com.api.jukeboxd.core.port.persistence.SyncArtistPersistenceAdapter;
 import com.api.jukeboxd.core.port.persistence.UserPersistenceAdapter;
 import com.api.jukeboxd.core.security.JwtService;
@@ -20,6 +22,11 @@ public class BeanConfig {
     ArtistService artistService(SyncArtistPersistenceAdapter syncArtistPersistenceAdapter,
                                 ArtistPersistenceAdapter persistence) {
         return new ArtistService(syncArtistPersistenceAdapter, persistence);
+    }
+
+    @Bean
+    AlbumService albumService(SyncAlbumPersistenceAdapter syncAlbumPersistenceAdapter) {
+        return new AlbumService(syncAlbumPersistenceAdapter);
     }
 
     @Bean

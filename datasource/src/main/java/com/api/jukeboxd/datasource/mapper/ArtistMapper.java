@@ -8,9 +8,7 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring",
-        injectionStrategy = InjectionStrategy.FIELD,
-        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
-        uses = {ImageMapper.class})
+        uses = {ImageMapper.class, AlbumMapper.class})
 public interface ArtistMapper {
     Artist toModel(ArtistDto dto);
     Artist toModel(ArtistEntity entity);

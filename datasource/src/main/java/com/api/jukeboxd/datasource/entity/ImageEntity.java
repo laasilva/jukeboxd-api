@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,9 +24,20 @@ public class ImageEntity {
     private Integer height;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "artist_image", schema = "music",
-            joinColumns = {@JoinColumn(name = "image", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "artist", insertable = false,
-                    updatable = false, referencedColumnName = "id")}
+        joinColumns = {@JoinColumn(name = "image", referencedColumnName = "id")},
+        inverseJoinColumns = {
+                @JoinColumn(name = "artist", insertable = false,
+                updatable = false, referencedColumnName = "id")
+        }
     )
     private ArtistEntity artist;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "album_image", schema = "music",
+            joinColumns = {@JoinColumn(name = "image", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "album", insertable = false,
+                            updatable = false, referencedColumnName = "id")
+            }
+    )
+    private AlbumEntity album;
 }

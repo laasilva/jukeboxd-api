@@ -6,9 +6,7 @@ import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring",
-        injectionStrategy = InjectionStrategy.FIELD,
-        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
+@Mapper(componentModel = "spring")
 public interface ImageMapper {
     Image toModel(ImageDto dto);
     ImageDto toDto(Image model);

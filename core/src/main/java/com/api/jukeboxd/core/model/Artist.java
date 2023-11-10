@@ -3,7 +3,6 @@ package com.api.jukeboxd.core.model;
 import lombok.*;
 
 import java.util.List;
-import java.util.Map;
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,5 +14,5 @@ public class Artist {
     int popularity;
     List<Image> images;
     List<String> genres;
-    Map<String, String> externalUrls;
+    String url;
 }

@@ -1,8 +1,9 @@
 package com.api.jukeboxd.datasource.integration.spotify;
 
-import com.api.jukeboxd.core.dto.artist.ArtistDto;
 import com.api.jukeboxd.core.dto.SearchQueryDto;
-import com.api.jukeboxd.core.dto.artist.SearchArtistResponseDto;
+import com.api.jukeboxd.core.dto.SearchResponseDto;
+import com.api.jukeboxd.core.exception.CoreException;
+import com.api.jukeboxd.core.util.SearchType;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import lombok.extern.log4j.Log4j2;
@@ -17,10 +18,11 @@ import java.util.List;
 
 @Service
 @Log4j2
-public class SearchRequest {
+public class SearchRequest<T> {
     private final String spotifyApiUrl;
     private final WebClient.Builder webClientBuilder;
     private final TokenRequest tokenRequest;
+    private T t;
 
     public SearchRequest(@Value("${spotify.url.api}") String spotifyApiUrl,
                          WebClient.Builder webClientBuilder, TokenRequest tokenRequest) {
@@ -29,7 +31,7 @@ public class SearchRequest {
         this.tokenRequest = tokenRequest;
     }
 
-    public ArtistDto syncArtist(SearchQueryDto query) throws Exception {
+    public T sync(SearchQueryDto query) throws Exception {
         var searchQuery = String.format("q=%s&type=%s&market=US&limit=1&offset=0",
                 query.getQ(), query.getType());
 
@@ -49,10 +51,21 @@ public class SearchRequest {
                     return resp.bodyToMono(String.class);
                 })
                 .toFuture();
-        return jsonToModel(response.join());
+
+        var resp = jsonToModel(response.join());
+
+        if (query.getType().equals(SearchType.ARTIST.getValue())) {
+            return (T) resp.getArtists().getItems().get(0);
+        }
+
+        if (query.getType().equals(SearchType.ALBUM.getValue())) {
+            return (T) resp.getAlbums().getItems().get(0);
+        }
+
+        throw new CoreException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
     }
 
-    public List<ArtistDto> searchArtists(SearchQueryDto query, int offset) throws Exception {
+    public List<?> search(SearchQueryDto query, int offset) throws Exception {
         var limit = 5 - offset;
 
         var searchQuery = String.format("q=%s&type=%s&market=US&limit=%s&offset=%s",
@@ -74,26 +87,30 @@ public class SearchRequest {
                     return resp.bodyToMono(String.class);
                 })
                 .toFuture();
-        return jsonToModelList(response.join());
+
+        var resp = jsonToModel(response.join());
+
+        if (query.getType().equals(SearchType.ARTIST.getValue())) {
+            return resp.getArtists().getItems();
+        }
+
+        if (query.getType().equals(SearchType.ALBUM.getValue())) {
+            return resp.getAlbums().getItems();
+        }
+
+        throw new CoreException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
     }
 
-    private ArtistDto jsonToModel(String response) {
-        var dto = new Gson().fromJson(response, SearchArtistResponseDto.class);
+    private SearchResponseDto jsonToModel(String response) {
+        var dto = new Gson().fromJson(response, SearchResponseDto.class);
 
         if (dto != null) {
-            return dto.getArtists().getItems().get(0);
+            return dto;
         } else {
             throw new JsonParseException("Error while converting Artist Response JSON.");
         }
     }
 
-    private List<ArtistDto> jsonToModelList(String response) {
-        var dto = new Gson().fromJson(response, SearchArtistResponseDto.class);
-
-        if (dto != null) {
-            return dto.getArtists().getItems();
-        } else {
-            throw new JsonParseException("Error while converting Artist Response JSON.");
-        }
-    }
+    public void set(T t) { this.t = t; }
+    public T get() { return t; }
 }

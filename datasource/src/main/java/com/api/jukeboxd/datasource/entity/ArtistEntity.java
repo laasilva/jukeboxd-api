@@ -26,13 +26,16 @@ public class ArtistEntity {
     @Column
     private String[] genres;
     @Column
-    private String href;
+    private String url;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "artist_image", schema = "music",
             joinColumns = {@JoinColumn(name = "artist", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "image", referencedColumnName = "id")}
     )
     @Fetch(value = FetchMode.SUBSELECT)
-    @JsonIgnoreProperties("artist")
+    @JsonIgnoreProperties({"artist", "album"})
     private List<ImageEntity> images;
+
+    @ManyToMany(mappedBy = "artists")
+    private List<AlbumEntity> albums;
 }

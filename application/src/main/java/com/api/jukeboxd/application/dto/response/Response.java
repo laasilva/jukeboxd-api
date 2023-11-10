@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Response<T> {
-    @JsonProperty("data")
+    @JsonProperty(value = "data")
     T data;
 }
